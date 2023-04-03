@@ -1,4 +1,5 @@
 const ctx = canvas.getContext("2d");
+const button = document.getElementById("button");
 
 let players = [1, 1, 1, 1];
 let waiting = [];
@@ -70,3 +71,10 @@ canvas.addEventListener("click", (e) => {
     draw(ctx);
     //console.log(x, y, waiting.length);
 }, false);
+
+button.onclick = () => {
+    const cvs = document.getElementById("canvas");
+    const png = cvs.toDataURL();
+    //console.log(png);
+    document.getElementById("newImg").src = png;
+}
