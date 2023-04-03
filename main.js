@@ -1,5 +1,6 @@
 const ctx = canvas.getContext("2d");
 const button = document.getElementById("button");
+const tbutton = document.getElementById("tbutton");
 
 let players = [1, 1, 1, 1];
 let waiting = [];
@@ -77,4 +78,14 @@ button.onclick = () => {
     const png = cvs.toDataURL();
     //console.log(png);
     document.getElementById("newImg").src = png;
+}
+
+tbutton.onclick = () => {
+    let text ="";
+    let now = new Date();
+    text += "%23" + encodeURI("モナ恋情報") + "%0D%0A";
+    text += encodeURI(`${now.getHours()}時${now.getMinutes()}分`) + "%0D%0A";
+    text += encodeURI(`チュウニズム 空き${(4-countPlayers())/2} 待ち${waiting.length}`) + "%0D%0A";
+    window.open(`https://twitter.com/intent/tweet?text=${text}`,);
+    console.log(text);
 }
