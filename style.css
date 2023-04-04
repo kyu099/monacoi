@@ -14,5 +14,6 @@ canvas{
 
 button {
     width: 160px;
+    height: 40px;
     padding: 10px;
 }
