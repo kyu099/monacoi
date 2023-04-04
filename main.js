@@ -13,8 +13,27 @@ function countPlayers() {
     return x;
 }
 
+//バツ印を描画する関数
+function drawCross(x, y, size, ctx) {
+    ctx.beginPath();
+    ctx.moveTo(x-size, y-size+size/10);
+    ctx.lineTo(x-size+size/10, y-size);
+    ctx.lineTo(x+size, y+size-size/10);
+    ctx.lineTo(x+size-size/10, y+size);
+    ctx.closePath();
+    ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(x+size-size/10, y-size);
+    ctx.lineTo(x+size, y-size+size/10);
+    ctx.lineTo(x-size+size/10, y+size);
+    ctx.lineTo(x-size, y+size-size/10);
+    ctx.closePath();
+    ctx.fill();
+}
+
 function draw(ctx) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "yellow";
     ctx.fillRect(0, 0, 180, 240);
     ctx.fillRect(canvas.width - 180, 0, 180, 240);
@@ -23,24 +42,16 @@ function draw(ctx) {
     ctx.fillStyle = "red"
 
     if(players[0] == 1){
-        ctx.beginPath();
-        ctx.arc(160, 120, 60, 0, 360 * Math.PI / 180, false);
-        ctx.fill();   
+        drawCross(160, 120, 60, ctx);
     }
     if(players[1] == 1){
-        ctx.beginPath();
-        ctx.arc(canvas.width - 160, 120, 60, 0, 360 * Math.PI / 180, false);
-        ctx.fill();   
+        drawCross(canvas.width - 160, 120, 60, ctx);  
     }
     if(players[2] == 1){
-        ctx.beginPath();
-        ctx.arc(160, 120 + 250, 60, 0, 360 * Math.PI / 180, false);
-        ctx.fill();   
+        drawCross(160, 120 + 250, 60, ctx);
     }
     if(players[3] == 1){
-        ctx.beginPath();
-        ctx.arc(canvas.width - 160, 120 + 250, 60, 0, 360 * Math.PI / 180, false);
-        ctx.fill();  
+        drawCross(canvas.width - 160, 120 + 250, 60, ctx);
     }
 
     for(i = 0; i < waiting.length; i++) {
