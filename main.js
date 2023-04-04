@@ -42,16 +42,16 @@ function draw(ctx) {
     ctx.fillStyle = "red"
 
     if(players[0] == 1){
-        drawCross(160, 120, 60, ctx);
+        drawCross(150, 120, 60, ctx);
     }
     if(players[1] == 1){
-        drawCross(canvas.width - 160, 120, 60, ctx);  
+        drawCross(canvas.width - 150, 120, 60, ctx);  
     }
     if(players[2] == 1){
-        drawCross(160, 120 + 250, 60, ctx);
+        drawCross(150, 120 + 250, 60, ctx);
     }
     if(players[3] == 1){
-        drawCross(canvas.width - 160, 120 + 250, 60, ctx);
+        drawCross(canvas.width - 150, 120 + 250, 60, ctx);
     }
 
     for(i = 0; i < waiting.length; i++) {
