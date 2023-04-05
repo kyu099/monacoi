@@ -96,7 +96,10 @@ tbutton.onclick = () => {
     let now = new Date();
     text += "%23" + encodeURI("モナ恋情報") + "%0D%0A";
     text += encodeURI(`${now.getHours()}時${now.getMinutes()}分`) + "%0D%0A";
-    text += encodeURI(`チュウニズム 空き${(4-countPlayers())/2} 待ち${waiting.length}`) + "%0D%0A";
+    text += encodeURI(`チュウニズム 空き${(4-countPlayers())/2} 待ち${waiting.length}`) + "%0D%0A" + "%0D%0A";
+    text += encodeURI("モナ恋情報共有はこちらから！") + "%0D%0A";
+    text += encodeURI("↓ ↓ ↓") + "%0D%0A";
+    text += "https://kyu099.github.io/monacoi/";
     window.open(`https://twitter.com/intent/tweet?text=${text}`,);
     console.log(text);
 }
