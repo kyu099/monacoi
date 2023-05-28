@@ -99,7 +99,6 @@ https://kyu099.github.io/monacoi/`
         const image = new File([blob], "tmp.png", {type: "image/png"});
         navigator.share({
             text: decodeURI(text),
-            url: "https://kyu099.github.io/monacoi/",
             files: [image]
         }).then(() => {
             console.log("Share was successful.");
