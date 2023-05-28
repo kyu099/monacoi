@@ -90,7 +90,8 @@ share.onclick = () => {
     ${now.getHours()}時${now.getMinutes()}分
     チュウニズム 空き${(4-countPlayers())/2} 待ち${waiting.length}
     モナ恋情報共有はこちらから！
-    ↓ ↓ ↓`
+    ↓ ↓ ↓
+    https://kyu099.github.io/monacoi/`
 
     const cvs = document.getElementById("canvas");
 
