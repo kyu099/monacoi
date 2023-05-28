@@ -1,6 +1,5 @@
 const ctx = canvas.getContext("2d");
-const button = document.getElementById("button");
-const tbutton = document.getElementById("tbutton");
+const share = document.getElementById("sharebutton");
 
 let players = [1, 1, 1, 1];
 let waiting = [];
@@ -61,9 +60,9 @@ function draw(ctx) {
         ctx.fill();
     }
     ctx.fillStyle = "red"
-    ctx.font = '32px sans-serif';
-    ctx.fillText("空き:" + String((4 - countPlayers())/2), 300, 940);
-    ctx.fillText("待ち:" + String(waiting.length), 300, 980);
+    ctx.font = '64px sans-serif';
+    ctx.fillText("空き:" + String((4 - countPlayers())/2), 360, 900);
+    ctx.fillText("待ち:" + String(waiting.length), 360, 980);
     ctx.strokeRect(0, 0, canvas.width, canvas.height);
 }
 
@@ -84,22 +83,27 @@ canvas.addEventListener("click", (e) => {
     //console.log(x, y, waiting.length);
 }, false);
 
-button.onclick = () => {
-    const cvs = document.getElementById("canvas");
-    const png = cvs.toDataURL();
-    //console.log(png);
-    document.getElementById("newImg").src = png;
-}
-
-tbutton.onclick = () => {
+share.onclick = () => {
     let text ="";
     let now = new Date();
-    text += "%23" + encodeURI("モナ恋情報") + "%0D%0A";
-    text += encodeURI(`${now.getHours()}時${now.getMinutes()}分`) + "%0D%0A";
-    text += encodeURI(`チュウニズム 空き${(4-countPlayers())/2} 待ち${waiting.length}`) + "%0D%0A" + "%0D%0A";
-    text += encodeURI("モナ恋情報共有はこちらから！") + "%0D%0A";
-    text += encodeURI("↓ ↓ ↓") + "%0D%0A";
-    text += "https://kyu099.github.io/monacoi/";
-    window.open(`https://twitter.com/intent/tweet?text=${text}`,);
-    console.log(text);
+    text = `#モナ恋情報
+    ${now.getHours()}時${now.getMinutes()}分
+    チュウニズム 空き${(4-countPlayers())/2} 待ち${waiting.length}
+    モナ恋情報共有はこちらから！
+    ↓ ↓ ↓`
+
+    const cvs = document.getElementById("canvas");
+
+    cvs.toBlob(function(blob) {
+        const image = new File([blob], "tmp.png", {type: "image/png"});
+        navigator.share({
+            text: decodeURI(text),
+            url: "https://kyu099.github.io/monacoi/",
+            files: [image]
+        }).then(() => {
+            console.log("Share was successful.");
+        }).catch((error) => {
+            console.log("Sharing failed", error);
+        });
+    });
 }
