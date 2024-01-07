@@ -1,16 +1,6 @@
 const ctx = canvas.getContext("2d");
 const share = document.getElementById("sharebutton");
 
-// クリスマス仕様
-let christmas_tree = new Image();
-christmas_tree.src = "christmas_tree.png"
-let christmas_santa = new Image();
-christmas_santa.src = "christmas_santa.png"
-let christmas_reindeer = new Image();
-christmas_reindeer.src = "christmas_reindeer.png"
-let christmas_socks = new Image();
-christmas_socks.src = "christmas_socks.png"
-
 let players = [1, 1, 1, 1];
 let waiting = [];
 
@@ -22,37 +12,54 @@ function countPlayers() {
     return x;
 }
 
+//バツ印を描画する関数
+function drawCross(x, y, size, ctx) {
+    ctx.beginPath();
+    ctx.moveTo(x-size, y-size+size/10);
+    ctx.lineTo(x-size+size/10, y-size);
+    ctx.lineTo(x+size, y+size-size/10);
+    ctx.lineTo(x+size-size/10, y+size);
+    ctx.closePath();
+    ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(x+size-size/10, y-size);
+    ctx.lineTo(x+size, y-size+size/10);
+    ctx.lineTo(x-size+size/10, y+size);
+    ctx.lineTo(x-size, y+size-size/10);
+    ctx.closePath();
+    ctx.fill();
+}
+
 function draw(ctx) {
-    // クリスマス仕様
-    ctx.fillStyle = "white"
+    ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(christmas_tree, 10, 0, 196, 240);
-    ctx.drawImage(christmas_tree, 10, 250, 196, 240);
-    ctx.drawImage(christmas_tree, 10, 500, 196, 240);
-    ctx.drawImage(christmas_tree, 10, 750, 196, 240);
+    ctx.fillStyle = "yellow";
+    ctx.fillRect(0, 0, 180, 240);
+    ctx.fillRect(0, 250, 180, 240);
+    ctx.fillRect(0, 500, 180, 240);
+    ctx.fillRect(0, 750, 180, 240);
+    ctx.fillStyle = "red"
     
     if(players[0] == 1){
-        ctx.drawImage(christmas_socks, 120, 120, 102, 120);
+        drawCross(150, 120, 60, ctx);
     }
-    if(players[1] == 1){ 
-        ctx.drawImage(christmas_socks, 120, 120 + 250, 102, 120);
+    if(players[1] == 1){
+        drawCross(150, 120 + 250, 60, ctx);  
     }
     if(players[2] == 1){
-        ctx.drawImage(christmas_socks, 120, 120 + 500, 102, 120);
+        drawCross(150, 120 + 500, 60, ctx);
     }
     if(players[3] == 1){
-        ctx.drawImage(christmas_socks, 120, 120 + 750, 102, 120);
+        drawCross(150, 120 + 750, 60, ctx);
     }
 
     for(i = 0; i < waiting.length; i++) {
-        if(waiting[i].img == "santa"){
-            ctx.drawImage(christmas_santa, waiting[i].x - 85, waiting[i].y - 100, 170, 200);
-        }
-        if(waiting[i].img == "reindeer"){
-            ctx.drawImage(christmas_reindeer, waiting[i].x - 89, waiting[i].y - 100, 179, 200);
-        }
+        ctx.fillStyle = "black";
+        ctx.beginPath();
+        ctx.arc(waiting[i].x, waiting[i].y, 60, 0, 360 * Math.PI / 180, false);
+        ctx.fill();
     }
-    ctx.fillStyle = "green"
+    ctx.fillStyle = "red"
     ctx.font = '64px sans-serif';
     ctx.fillText("空き:" + String((4 - countPlayers())/2), 360, 900);
     ctx.fillText("待ち:" + String(waiting.length), 360, 980);
@@ -60,42 +67,20 @@ function draw(ctx) {
 }
 
 draw(ctx);
-// クリスマス仕様
-let images = [christmas_tree, christmas_socks];
-let loadedCount = 1;
-for (let i in images) {
-    images[i].addEventListener('load', function() {
-        if (loadedCount == images.length) {
-            let n = 0;
-            for (let j in images) {
-                for(let k = 0; k < 4; k++){
-                    ctx.drawImage(images[j], 10 + n*110, 0 + k*250 + n*120, 196 - n*94, 240 - n*120);
-                }
-                n++;
-            }
-        }
-        loadedCount++;
-    }, false);
-}
 
 canvas.addEventListener("click", (e) => {
     let x = e.clientX - canvas.getBoundingClientRect().left;
     let y = e.clientY - canvas.getBoundingClientRect().top;
-    if(x < 240){
+    if(x < 200){
         if(y < 240) {players[0] = -players[0];}
         if(y > 250 && y < 490) {players[1] = -players[1];}
         if(y > 500 && y < 740) {players[2] = -players[2];}
         if(y > 750 && y < 990) {players[3] = -players[3];}
     } else {
-        let rand = Math.random();
-        if(rand < 0.8){
-            waiting.push({x: x, y: y, img: "reindeer"});
-        }else{
-            waiting.push({x: x, y: y, img: "santa"});
-        }
-        
+        waiting.push({x: x, y: y});
     }
     draw(ctx);
+    //console.log(x, y, waiting.length);
 }, false);
 
 share.onclick = () => {
