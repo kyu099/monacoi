@@ -109,7 +109,7 @@ canvas.addEventListener("click", (e) => {
 share.onclick = () => {
     let text ="";
     let now = new Date();
-    text = `#モナ恋情報
+    text = `#モナ恋情報 #モナ恋情報4K #エイプリルフール   
 ${now.getHours()}時${now.getMinutes()}分
 チュウニズム 空き${(4-countPlayers())/2} 待ち${waiting.length}
 モナ恋情報共有はこちらから！
