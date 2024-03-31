@@ -82,6 +82,9 @@ function draw(ctx) {
 background.addEventListener('load', function() {
     draw(ctx);
 }, false);
+player.addEventListener('load', function() {
+    draw(ctx);
+})
 
 
 canvas.addEventListener("click", (e) => {
