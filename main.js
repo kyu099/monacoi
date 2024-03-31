@@ -1,6 +1,19 @@
 const ctx = canvas.getContext("2d");
 const share = document.getElementById("sharebutton");
 
+let background = new Image();
+background.src = "background.png";
+let player = new Image();
+player.src = "player.png";
+let wait1 = new Image();
+wait1.src = "wait1.png";
+let wait2 = new Image();
+wait2.src = "wait2.png";
+let wait3 = new Image();
+wait3.src = "wait3.png";
+let wait4 = new Image();
+wait4.src = "wait4.png";
+
 let players = [1, 1, 1, 1];
 let waiting = [];
 
@@ -31,34 +44,33 @@ function drawCross(x, y, size, ctx) {
 }
 
 function draw(ctx) {
-    ctx.fillStyle = "white";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "yellow";
-    ctx.fillRect(0, 0, 180, 240);
-    ctx.fillRect(0, 250, 180, 240);
-    ctx.fillRect(0, 500, 180, 240);
-    ctx.fillRect(0, 750, 180, 240);
-    ctx.fillStyle = "red"
-    
-    if(players[0] == 1){
-        drawCross(150, 120, 60, ctx);
-    }
-    if(players[1] == 1){
-        drawCross(150, 120 + 250, 60, ctx);  
+    ctx.drawImage(background, 0, 0, 861, 1152);
+
+    if(players[3] == 1){
+        ctx.drawImage(player, 400, 50, 240, 240);
     }
     if(players[2] == 1){
-        drawCross(150, 120 + 500, 60, ctx);
+        ctx.drawImage(player, 300, 35, 300, 300);
     }
-    if(players[3] == 1){
-        drawCross(150, 120 + 750, 60, ctx);
+    if(players[1] == 1){
+        ctx.drawImage(player, 160, 20, 380, 380);
+    }
+    if(players[0] == 1){
+        ctx.drawImage(player, -40, 0, 480, 480);
     }
 
     for(i = 0; i < waiting.length; i++) {
-        ctx.fillStyle = "black";
-        ctx.beginPath();
-        ctx.arc(waiting[i].x, waiting[i].y, 60, 0, 360 * Math.PI / 180, false);
-        ctx.fill();
+        if(waiting[i].n == 0){
+            ctx.drawImage(wait1, waiting[i].x, waiting[i].y, waiting[i].size, waiting[i].size);
+        } else if(waiting[i].n == 1){
+            ctx.drawImage(wait2, waiting[i].x, waiting[i].y, waiting[i].size, waiting[i].size);
+        } else if(waiting[i].n == 2){
+            ctx.drawImage(wait3, waiting[i].x, waiting[i].y, waiting[i].size, waiting[i].size);
+        } else if(waiting[i].n == 3){
+            ctx.drawImage(wait4, waiting[i].x, waiting[i].y, waiting[i].size, waiting[i].size);
+        }
     }
+
     ctx.fillStyle = "red"
     ctx.font = '64px sans-serif';
     ctx.fillText("空き:" + String((4 - countPlayers())/2), 360, 900);
@@ -66,18 +78,26 @@ function draw(ctx) {
     ctx.strokeRect(0, 0, canvas.width, canvas.height);
 }
 
-draw(ctx);
+//背景を読み込んでから描画
+background.addEventListener('load', function() {
+    draw(ctx);
+}, false);
+
 
 canvas.addEventListener("click", (e) => {
     let x = e.clientX - canvas.getBoundingClientRect().left;
     let y = e.clientY - canvas.getBoundingClientRect().top;
-    if(x < 200){
-        if(y < 240) {players[0] = -players[0];}
-        if(y > 250 && y < 490) {players[1] = -players[1];}
-        if(y > 500 && y < 740) {players[2] = -players[2];}
-        if(y > 750 && y < 990) {players[3] = -players[3];}
+    if(y < -0.85*x + 757.5 && x < 540){
+        if(x < 264) {players[0] = -players[0];}
+        if(x > 264 && x < 393) {players[1] = -players[1];}
+        if(x > 393 && x < 477) {players[2] = -players[2];}
+        if(x > 477 && x < 540) {players[3] = -players[3];}
     } else {
-        waiting.push({x: x, y: y});
+        let rand = Math.floor(Math.random()*4)
+        let size = y - 60;
+        if(size < 210){size = 210;}
+        waiting.push({x: x - size/2, y: y - size, n: rand, size: size});
+        waiting.sort(function(a,b){return a.size - b.size});
     }
     draw(ctx);
     //console.log(x, y, waiting.length);
