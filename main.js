@@ -46,10 +46,10 @@ function draw(ctx) {
 
     for(i = 0; i < waiting.length; i++) {
         if(waiting[i].img == "man"){
-            ctx.drawImage(mizugi_man, waiting[i].x - 73, waiting[i].y - 100, 145, 200);
+            ctx.drawImage(mizugi_man, waiting[i].x - 87, waiting[i].y - 120, 174, 240);
         }
         if(waiting[i].img == "woman"){
-            ctx.drawImage(mizugi_woman, waiting[i].x - 73, waiting[i].y - 100, 145, 200);
+            ctx.drawImage(mizugi_woman, waiting[i].x - 87, waiting[i].y - 120, 174, 240);
         }
     }
     ctx.fillStyle = "dodgerblue"
